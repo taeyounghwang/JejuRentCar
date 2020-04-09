@@ -17,7 +17,19 @@
 	</properties>
 	<dependencies>
 
-	<!-- LomBok -->
+		<!-- 이메일 인증 -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.5.0-b01</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>5.2.5.RELEASE</version>
+		</dependency>
+
+		<!-- LomBok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -205,7 +217,7 @@
 			<artifactId>tiles-template</artifactId>
 			<version>${org.apache.tiles-version}</version>
 		</dependency>
-		
+
 		<!-- excel write -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -237,14 +249,14 @@
 			<artifactId>jfreechart</artifactId>
 			<version>1.0.19</version>
 		</dependency>
-		
+
 		<!-- 썸네일을 생성하는 코드로 imageScalr 라이브러리 활용 -->
 		<dependency>
 			<groupId>org.imgscalr</groupId>
-		    <artifactId>imgscalr-lib</artifactId>
-		    <version>4.2</version>
+			<artifactId>imgscalr-lib</artifactId>
+			<version>4.2</version>
 		</dependency>
-		
+
 	</dependencies>
 	<build>
 		<plugins>
