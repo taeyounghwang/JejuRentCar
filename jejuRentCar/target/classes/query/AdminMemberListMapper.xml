@@ -77,7 +77,7 @@
 		mem_id = #{mem_id}
 	</select>
 
-	<!-- 게시물 수정 -->
+	<!-- 게시물 수정 (상태 변경) -->
 	<update id="memUpdate" parameterType="adminMemList">
 		UPDATE member
 		SET

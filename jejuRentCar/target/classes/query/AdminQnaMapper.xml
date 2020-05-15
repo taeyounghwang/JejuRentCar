@@ -30,7 +30,7 @@
 	</sql>
 
 
-	<!-- 게시물 전체 조회 (정렬 제외)-->
+	<!-- 게시물 전체 조회  -->
 	<select id="list" parameterType="adminQnaList"
 		resultType="adminQnaList">
 		<!-- Board - boardList -->
@@ -40,7 +40,19 @@
 		( SELECT list.*, ROWNUM AS RNUM
 		FROM (
 		<include refid="qnaCommon"></include>
-		ORDER BY inq_number ASC
+		<choose>
+			<when test="order_by=='inq_number'">
+				ORDER BY inq_number
+			</when>
+		</choose>
+		<choose>
+			<when test="order_sc=='ASC'">
+				ASC
+			</when>
+			<when test="order_sc=='DESC'">
+				DESC
+			</when>
+		</choose>
 		) list
 		)
 		<where>
