@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.jeju.admin.car.list.dao.AdminCarListDao">
+
+	<!-- 게시물 전체 목록 조회 <select id="list" resultType="adminCarList"> SELECT car_model_number, 
+		car_name, car_image, car_option, car_price, car_registe_date FROM car order 
+		by car_model_number </select> -->
+
+	<!-- 게시물 검색 쿼리 분리 -->
+	<sql id="carCommon">
+		SELECT
+		car_model_number, car_name, car_image, car_option, car_fuel,
+		car_price,
+		car_registe_date
+		FROM car
+		<where>
+			<if test="search=='car_name'">
+					<![CDATA[car_name LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+			<if test="search=='car_option'">
+					<![CDATA[car_option LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+			<if test="search=='car_fuel'">
+					<![CDATA[car_fuel LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+		</where>
+	</sql>
+
+	<!-- 게시물 전체 조회 -->
+	<select id="list" parameterType="adminCarList"
+		resultType="adminCarList">
+		<!-- Board - boardList -->
+		SELECT
+		car_model_number, car_name, car_image, car_option, car_fuel,
+		car_price,
+		car_registe_date
+		FROM
+		( SELECT list.*, ROWNUM AS RNUM
+		FROM (
+		<include refid="carCommon"></include>
+		<choose>
+			<when test="order_by=='car_model_number'">
+				ORDER BY car_model_number
+			</when>
+			<when test="order_by=='car_price'">
+				ORDER BY car_price
+			</when>
+		</choose>
+		<choose>
+			<when test="order_sc=='ASC'">
+				ASC
+			</when>
+			<when test="order_sc=='DESC'">
+				DESC
+			</when>
+		</choose>
+		) list
+		)
+		<where>
+			<if test="start_row != null and start_row != ''">
+				<if test="end_row != null and end_row != ''">
+					RNUM BETWEEN #{start_row} AND #{end_row}
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<!-- 게시물 카운트 페이징 -->
+	<select id="carListCnt" parameterType="adminCarList"
+		resultType="int">
+		<!-- Board - boardListCnt -->
+		SELECT NVL(count(1), 0) FROM
+		( SELECT list.*, ROWNUM AS RNUM
+		FROM(
+		<include refid="carCommon"></include>
+		ORDER BY car_model_number desc
+		) list
+		)
+	</select>
+
+	<!-- 상세 페이지를 위한 게시물 조회 -->
+	<select id="detail" resultType="adminCarList"
+		parameterType="int">
+		SELECT *
+		FROM car
+		WHERE car_model_number =
+		#{car_model_number}
+	</select>
+
+	<!-- 게시물 등록 -->
+	<insert id="listInsert" parameterType="adminCarList">
+		<selectKey keyProperty="car_model_number" resultType="int"
+			order="BEFORE">
+			select car_model_number_seq.nextval from dual
+		</selectKey>
+		INSERT INTO car(
+		car_model_number,
+		car_name,
+		car_price,
+		car_registe_date,
+		<if test="car_image != null and car_image != ''">
+			car_image,
+		</if>
+		car_insurance,
+		car_adv_insurance,
+		car_stick,
+		car_fuel,
+		car_number_passengers,
+		car_option
+		)
+		VALUES(
+		#{car_model_number},
+		#{car_name},
+		#{car_price},
+		SYSDATE,
+		<if test="car_image != null and car_image != ''">
+			#{car_image},
+		</if>
+		#{car_insurance},
+		#{car_adv_insurance},
+		#{car_stick},
+		#{car_fuel},
+		#{car_number_passengers},
+		#{car_option}
+		)
+	</insert>
+	<!-- 인서트 종료 -->
+
+	<!-- 게시물 수정 -->
+	<update id="update" parameterType="adminCarList">
+		UPDATE car
+		SET
+		car_name = #{car_name},
+		car_price = #{car_price},
+		<if test="car_image != ''">
+			car_image = #{car_image},
+		</if>
+		car_insurance = #{car_insurance},
+		car_adv_insurance =
+		#{car_adv_insurance},
+		car_fuel = #{car_fuel},
+		car_number_passengers =
+		#{car_number_passengers},
+		car_option = #{car_option}
+		WHERE
+		car_model_number = #{car_model_number}
+	</update>
+
+	<!-- 게시물 삭제 -->
+	<delete id="delete" parameterType="adminCarList">
+		DELETE FROM car
+		WHERE
+		car_model_number = #{car_model_number}
+	</delete>
+</mapper>
+

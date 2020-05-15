@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="basic" template="/WEB-INF/views/template/admin/contentLayout.jsp">
+		<put-attribute name="title" value="제주 렌터카 관리자 페이지" />
+		<put-attribute name="header" value="/WEB-INF/views/template/admin/header.jsp" />
+		<put-attribute name="sub" value="/WEB-INF/views/template/admin/sub.jsp" />
+		<put-attribute name="left" value="/WEB-INF/views/template/admin/left.jsp" />
+		<put-attribute name="main" value="" />
+	</definition>
+
+	<definition name="admin/memreservation/*" extends="basic">
+		<put-attribute name="main" value="/WEB-INF/views/admin/memreservation/{1}.jsp" />
+	</definition>
+	
+	<definition name="admin/refund/*" extends="basic">
+		<put-attribute name="main" value="/WEB-INF/views/admin/refund/{1}.jsp" />
+	</definition>
+	
+	<definition name="admin/carreservation/*" extends="basic">
+		<put-attribute name="main" value="/WEB-INF/views/admin/carreservation/{1}.jsp" />
+	</definition>
+	
+	<definition name="admin/carlist/*" extends="basic">
+		<put-attribute name="main" value="/WEB-INF/views/admin/carlist/{1}.jsp" />
+	</definition>
+	
+	<definition name="admin/noticeboard/*" extends="basic">
+		<put-attribute name="main" value="/WEB-INF/views/admin/noticeboard/{1}.jsp" />
+	</definition>
+	
+	<definition name="admin/memberlist/*" extends="basic">
+		<put-attribute name="main"
+			value="/WEB-INF/views/admin/memberlist/{1}.jsp" />
+	</definition>
+	
+	<definition name="admin/qna/*" extends="basic">
+		<put-attribute name="main"
+			value="/WEB-INF/views/admin/qna/{1}.jsp" />
+	</definition>
+	
+	<definition name="admin/review/*" extends="basic">
+		<put-attribute name="main"
+			value="/WEB-INF/views/admin/review/{1}.jsp" />
+	</definition>
+	
+	
+	
+</tiles-definitions>
+

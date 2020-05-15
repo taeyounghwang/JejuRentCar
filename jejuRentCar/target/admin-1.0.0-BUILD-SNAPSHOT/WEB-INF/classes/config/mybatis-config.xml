@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias
+			type="com.jeju.admin.member.reservation.vo.AdminMemberReservationVO"
+			alias="AdminMemberReservation" />
+		<typeAlias type="com.jeju.admin.refund.vo.AdminRefundVO"
+			alias="AdminRefund" />
+		<typeAlias
+			type="com.jeju.admin.car.reservation.vo.AdminCarReservationVO"
+			alias="AdminCarReservation" />
+		<typeAlias type="com.jeju.admin.notice.vo.AdminNoticeVO"
+			alias="AdminNotice" />
+		<typeAlias type="com.jeju.admin.login.vo.AdminLoginVO"
+			alias="adminLogin" />
+		<typeAlias type="com.jeju.admin.car.list.vo.AdminCarListVO"
+			alias="adminCarList" />
+		<typeAlias
+			type="com.jeju.admin.member.list.vo.AdminMemberListVO"
+			alias="adminMemList" />
+		<typeAlias
+			type="com.jeju.admin.qna.vo.AdminQnaVO"
+			alias="adminQnaList" />
+		<typeAlias
+			type="com.jeju.admin.review.vo.AdminReviewVO"
+			alias="adminReview" />	
+	</typeAliases>
+</configuration>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jeju.admin.notice.dao.AdminNoticeDao">
+
+	<!-- 공지사항 리스트 <select id="NoticeList" resultType="AdminNotice"> SELECT nt_number 
+		,nt_heading, nt_title, nt_content, nt_image, nt_regdate FROM notice_board 
+		ORDER BY nt_number DESC </select> -->
+		
+	<!-- 게시물 검색 쿼리 분리 -->
+	<sql id="noticeCommon">
+		SELECT nt_number ,nt_heading,
+		nt_title, nt_content, nt_image,
+		nt_regdate
+		FROM notice_board
+		<where>
+			<if test="search=='nt_title'">
+					<![CDATA[nt_title LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+			<if test="search=='nt_heading'">
+					<![CDATA[nt_heading LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+		</where>
+	</sql>
+
+	<!-- 게시물 전체 조회 -->
+	<select id="NoticeList" parameterType="AdminNotice"
+		resultType="AdminNotice">
+		<!-- Board - boardList -->
+		SELECT
+		nt_number ,nt_heading, nt_title, nt_content, nt_image,
+		nt_regdate
+		FROM
+		( SELECT list.*, ROWNUM AS RNUM
+		FROM (
+		<include refid="noticeCommon"></include>
+		<choose>
+			<when test="order_by=='nt_number'">
+				ORDER BY nt_number
+			</when>
+		</choose>
+		<choose>
+			<when test="order_sc=='ASC'">
+				ASC
+			</when>
+			<when test="order_sc=='DESC'">
+				DESC
+			</when>
+		</choose>
+		) list
+		)
+		<where>
+			<if test="start_row != null and start_row != ''">
+				<if test="end_row != null and end_row != ''">
+					RNUM BETWEEN #{start_row} AND #{end_row}
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<!-- 게시물 카운트 페이징 -->
+	<select id="listCnt" parameterType="AdminNotice"
+		resultType="int">
+		<!-- Board - boardListCnt -->
+		SELECT NVL(count(1), 0) FROM
+		( SELECT list.*, ROWNUM AS RNUM
+		FROM(
+		<include refid="noticeCommon"></include>
+		ORDER BY nt_number desc
+		) list
+		)
+	</select>
+
+	<!-- 공지사항 상세 내역 -->
+	<select id="detail" resultType="AdminNotice">
+		SELECT *
+		FROM notice_board
+		WHERE
+		nt_number = ${nt_number}
+	</select>
+
+	<!-- 공지사항 등록 -->
+	<insert id="noticeInsert" parameterType="AdminNotice">
+		<selectKey keyProperty="nt_number" resultType="int"
+			order="BEFORE">
+			select notice_seq.nextval from dual
+		</selectKey>
+		INSERT INTO NOTICE_BOARD(
+		nt_number,
+		nt_heading,
+		nt_title,
+		nt_content,
+		<if test="nt_image != null and nt_image != ''">
+			nt_image,
+		</if>
+		nt_regdate
+		)VALUES(
+		#{nt_number},
+		#{nt_heading},
+		#{nt_title},
+		#{nt_content},
+		<if test="nt_image != null and nt_image != ''">
+			#{nt_image},
+		</if>
+		SYSDATE
+		)
+	</insert>
+
+
+	<!-- 공지사항 수정 -->
+	<update id="update" parameterType="AdminNotice">
+		UPDATE NOTICE_BOARD
+		SET
+		nt_number = #{nt_number},
+		nt_heading = #{nt_heading},
+		nt_title = #{nt_title},
+		nt_content = #{nt_content},
+		nt_image = #{nt_image}
+		where nt_number = #{nt_number}
+	</update>
+
+	<!-- 공지사항 삭제 -->
+	<delete id="delete" parameterType="AdminNotice">
+		DELETE FROM NOTICE_BOARD
+		WHERE
+		nt_number = #{nt_number}
+	</delete>
+</mapper>

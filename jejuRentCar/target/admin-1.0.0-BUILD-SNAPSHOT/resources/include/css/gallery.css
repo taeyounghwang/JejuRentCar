@@ -1,0 +1,43 @@
+@CHARSET "UTF-8";
+
+/* 게시판 리스트 화면 */
+/* 리스트 부분 */
+#galleryList{
+	margin-top:10px;
+	width:96%;
+}
+
+#galleryList .gallery{
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-ms-box-sizing: content-box;
+	box-sizing: content-box;
+	position: relative;
+	width: 332px;
+	height: 265px;
+	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	padding: 20px;
+	background: #efefef no-repeat 20px 20px;
+	background-size: 1160px 265px;
+	margin-right:12px;
+	display:inline;
+	float:left;
+}
+
+#galleryList .gallery:last-child{
+	margin-right:0px;
+}
+
+#galleryList .gallery img{	
+	width:100%;
+	height:95%;
+	border-radius: 10px;
+}
+
+#galleryList .gallery span.gDate{
+	display:inline-block; 
+	width:80%; 
+	margin-top:5px;
+}
+#g_content{border:1px solid #000066; width:780px; height:200px;}	

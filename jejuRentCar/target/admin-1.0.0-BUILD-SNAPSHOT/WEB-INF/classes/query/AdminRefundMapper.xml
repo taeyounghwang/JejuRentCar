@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jeju.admin.refund.dao.AdminRefundDao">
+
+	<!-- 차량 예약 관리 리스트 
+	<select id="carResList" resultType="AdminCarReservation">
+		SELECT *
+		FROM RENTAL
+		WHERE ren_state = '입금완료(인수대기)' or ren_state = '렌트중' or ren_state = '반납완료'
+		order by ren_car_number desc
+	</select> -->
+
+
+	<!-- 게시물 검색 쿼리 분리 -->
+	<sql id="refundCommon">
+		SELECT *
+		FROM RESERVATION
+		<where>
+			<if test="search=='ren_number'">
+					<![CDATA[rsv_number LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+			<if test="search=='rsv_number'">
+					<![CDATA[mem_id LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+			<if test="search=='rsv_name'">
+					<![CDATA[rsv_name LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+		</where>
+	</sql>
+
+	<!-- 게시물 전체 조회 -->
+	<select id="refundList" parameterType="AdminRefund"
+		resultType="AdminRefund">
+		<!-- Board - boardList -->
+		SELECT
+		*
+		FROM
+		( SELECT list.*, ROWNUM AS RNUM
+		FROM (
+		<include refid="refundCommon"></include>
+		<choose>
+			<when test="order_by=='rsv_numeber'">
+				ORDER BY rsv_numeber
+			</when>
+		</choose>
+		<choose>
+			<when test="order_sc=='ASC'">
+				ASC
+			</when>
+			<when test="order_sc=='DESC'">
+				DESC
+			</when>
+		</choose>
+		) list 
+		)
+		<where>
+			<if test="start_row != null and start_row != ''">
+				<if test="end_row != null and end_row != ''">
+					RNUM BETWEEN #{start_row} AND #{end_row} and rsv_state = '환불대기' or rsv_state = '환불완료'
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<!-- 게시물 카운트 페이징 -->
+	<select id="refCnt" parameterType="AdminRefund"
+		resultType="int">
+		<!-- Board - boardListCnt -->
+		SELECT NVL(count(1), 0) FROM
+		( SELECT list.*, ROWNUM AS RNUM
+		FROM(
+		<include refid="refundCommon"></include>
+		WHERE rsv_state = '환불대기' or rsv_state = '환불완료'
+		ORDER BY rsv_number desc
+		) list
+		)
+	</select>
+	
+	<!-- 환불 관리 상세 내역 -->
+	<select id="detail" resultType="AdminRefund">
+		SELECT *
+		FROM RESERVATION
+		where rsv_number = #{rsv_number}
+	</select>
+	
+	<!-- 환불 상태 업데이트 -->
+	<update id="update" parameterType="AdminRefund">
+		UPDATE RESERVATION
+		SET
+		rsv_state = #{rsv_state}
+		where rsv_number = #{rsv_number}
+	</update>	
+</mapper>

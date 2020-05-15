@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper
+	namespace="com.jeju.admin.member.reservation.dao.AdminMemberReservationDao">
+
+	<!-- 회원 예약 내역 -->
+	<!-- <select id="memResList" resultType="AdminMemberReservation"> SELECT 
+		* FROM RESERVATION where rsv_state = '입금대기' or rsv_state='입금완료(인수대기)' or 
+		rsv_state='' or rsv_state='반납완료' order by rsv_number desc </select> -->
+
+	<!-- 게시물 검색 쿼리 분리 -->
+	<sql id="memResCommon">
+		SELECT *
+		FROM RESERVATION
+		<where>
+			<if test="search=='rsv_number'">
+					<![CDATA[rsv_number LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+			<if test="search=='rsv_name'">
+					<![CDATA[rsv_name LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+			<if test="search=='rsv_state'">
+					<![CDATA[rsv_state LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+		</where>
+	</sql>
+
+	<!-- 게시물 전체 조회 -->
+	<select id="memResList" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		<!-- Board - boardList -->
+		SELECT *
+		FROM
+		( SELECT list.*, ROWNUM AS RNUM
+		FROM (
+		<include refid="memResCommon"></include>
+		<choose>
+			<when test="order_by=='rsv_number'">
+				ORDER BY rsv_number
+			</when>
+		</choose>
+		<choose>
+			<when test="order_sc=='ASC'">
+				ASC
+			</when>
+			<when test="order_sc=='DESC'">
+				DESC
+			</when>
+		</choose>
+		) list
+		)
+		<where>
+			<if test="start_row != null and start_row != ''">
+				<if test="end_row != null and end_row != ''">
+					RNUM BETWEEN #{start_row} AND #{end_row}
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<!-- 게시물 카운트 페이징 -->
+	<select id="memResListCnt"
+		parameterType="AdminMemberReservation" resultType="int">
+		<!-- Board - boardListCnt -->
+		SELECT NVL(count(1), 0) FROM
+		( SELECT list.*, ROWNUM AS RNUM
+		FROM(
+		<include refid="memResCommon"></include>
+		ORDER BY rsv_number desc
+		) list
+		)
+	</select>
+
+
+	<!-- 회원 예약 상세 내역 -->
+	<select id="detail" resultType="AdminMemberReservation"
+		parameterType="int">
+		SELECT *
+		FROM RESERVATION
+		WHERE rsv_number = #{rsv_number}
+	</select>
+
+	<!-- 회원 예약 상세 내역 업데이트 -->
+	<update id="update" parameterType="AdminMemberReservation">
+		UPDATE RESERVATION
+		SET
+		rsv_state = #{rsv_state}
+		where rsv_number = #{rsv_number}
+	</update>
+
+	<!-- 차량 예약 관리로 정보 인설트 -->
+	<insert id="insert" parameterType="AdminMemberReservation">
+		INSERT INTO RENTAL(
+		ren_number,
+		car_name,
+		rsv_number,
+		rsv_name,
+		rsv_insu,
+		rsv_bannad,
+		rsv_state,
+		car_model_number
+		)SELECT
+		ren_number_seq.nextval,
+		car_name,
+		rsv_number,
+		rsv_name,
+		rsv_insu,
+		rsv_bannad,
+		rsv_state,
+		car_model_number
+		from reservation
+		where rsv_state = '입금완료(인수대기)' and
+		rsv_number = #{rsv_number}
+	</insert>
+
+	<!-- 1월 매출액 -->
+	<select id="selectJan" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/01') then rsv_price end as price
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 1월 예약 건수 -->
+	<select id="selectJanCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/01') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 2월달 매출액 -->
+	<select id="selectFeb" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/02') then rsv_price end as price
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 2월달 예약건수 -->
+	<select id="selectFebCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/02') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 3월달 매출액 -->
+	<select id="selectMar" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/03') then rsv_price end as price
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 3월달 예약건수 -->
+	<select id="selectMarCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/03') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 4월달 매출액 -->
+	<select id="selectApr" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/04') then rsv_price end as price
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 4월달 예약건수 -->
+	<select id="selectAprCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/04') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 5월 매출액 -->
+	<select id="selectMay" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/05') then rsv_price end as price
+		from reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 5월 예약 건수 -->
+	<select id="selectMayCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/05') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 6월달 매출액 -->
+	<select id="selectJun" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/06') then rsv_price end as price
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 6월달 예약건수 -->
+	<select id="selectJunCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/06') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 7월달 매출액 -->
+	<select id="selectJul" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/07') then rsv_price end as price
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 7월달 예약건수 -->
+	<select id="selectJulCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/07') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 8월달 매출액 -->
+	<select id="selectAug" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/08') then rsv_price end as price
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 8월달 예약건수 -->
+	<select id="selectAugCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/08') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 9월달 매출액 -->
+	<select id="selectSept" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/09') then rsv_price end as price
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 9월달 예약건수 -->
+	<select id="selectSeptCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/09') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 10월달 매출액 -->
+	<select id="selectOct" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/10') then rsv_price end as price
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 10월달 예약건수 -->
+	<select id="selectOctCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/10') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 11월달 매출액 -->
+	<select id="selectNov" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/11') then rsv_price end as price
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 11월달 예약건수 -->
+	<select id="selectNovCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/11') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 12월달 매출액 -->
+	<select id="selectDec" parameterType="AdminMemberReservation"
+		resultType="AdminMemberReservation">
+		select NVL(sum(price), 0) as rsv_price
+		from (select case
+		when substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/12') then rsv_price end as price
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+	<!-- 12월달 예약건수 -->
+	<select id="selectDecCnt" resultType="int"
+		parameterType="AdminMemberReservation">
+		select NVL(count(state), 0)
+		from(select case when
+		substr(rsv_bannad,1,5) = CONCAT(to_char(sysdate, 'YY'),'/12') then rsv_state end as
+		state
+		from
+		reservation
+		where rsv_state = '반납완료')
+	</select>
+</mapper>
