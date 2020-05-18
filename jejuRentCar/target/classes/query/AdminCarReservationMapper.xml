@@ -68,13 +68,9 @@
 	<select id="listCnt" parameterType="AdminCarReservation"
 		resultType="int">
 		<!-- Board - boardListCnt -->
-		SELECT NVL(count(1), 0) FROM
-		( SELECT list.*, ROWNUM AS RNUM
-		FROM(
-		<include refid="noticeCommon"></include>
-		ORDER BY ren_number desc
-		) list
-		)
+		SELECT NVL(count(rsv_state), 0)
+		FROM RENTAL
+		WHERE rsv_state = '입금완료(인수대기)' or rsv_state='렌트중' or rsv_state='반납완료'
 	</select>
 
 	

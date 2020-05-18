@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>JejuRentCar 관리자 로그인 페이지</title>
-<link rel="stylesheet" href="resources/css/styles.css" />
+<link rel="stylesheet" href="/resources/css/styles.css" />
 
 <script type="text/javascript"
 	src="/resources/include/js/jquery-1.12.4.min.js"></script>

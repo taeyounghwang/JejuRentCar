@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script type="text/javascript"
+	src="/resources/include/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		//취소버튼 클릭 시
@@ -18,6 +20,7 @@
 			}
 		})
 	})
+	
 </script>
 <div class="contetnContainer">
 	<h2 class="sub-header">회원 예약 상세 내역</h2>

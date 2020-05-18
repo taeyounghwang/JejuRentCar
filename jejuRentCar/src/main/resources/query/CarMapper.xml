@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jeju.client.car.dao.CarDao">
+
+	<sql id="CarCommon">
+		select
+		car_model_number,car_name,car_image,car_price,car_fuel,car_option
+		from car
+		<where>
+			<if test="search =='car_name'">
+			<![CDATA[car_name LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+			<if test="search =='car_option'">
+			<![CDATA[car_option LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+			<if test="search =='car_fuel'">
+			<![CDATA[car_fuel LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+		</where>
+	</sql>
+	
+	
+	<!-- 상품 조회 -->
+	<select resultType="car" id="carList">
+		select
+		car_model_number,
+		car_name,
+		car_image,
+		car_price,
+		car_fuel,
+		car_option
+		from
+		( select list.*,ROWNUM AS RNUM
+		from(
+		<include refid="CarCommon"></include>
+		)list
+		)
+
+	</select>
+
+
+
+	<!-- 차량 상세 페이지를 위한 게시물 조회 -->
+	<select id="carDetail" resultType="detail">
+		select
+		car_model_number,
+		car_name,
+		car_price,
+		car_stick,
+		car_option,
+		car_adv_insurance,
+		car_insurance,
+		car_image,
+		car_fuel
+		from car
+		where car_model_number =
+		#{car_model_number}
+
+	</select>
+
+</mapper>

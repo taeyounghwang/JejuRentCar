@@ -36,21 +36,22 @@
 	class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"> 
 		<beans:property name="definitions"> 
 			<beans:list>
-				<beans:value>/WEB-INF/tiles/tiles-setting.xml</beans:value>
 				<beans:value>/WEB-INF/tiles/admin-setting.xml</beans:value>
 			</beans:list>
 		</beans:property>
 	</beans:bean>
 	
-	<beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
+	<beans:bean id="tilesViewResolver"
+	class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<beans:property name="viewClass"
+		value="org.springframework.web.servlet.view.tiles3.TilesView"/>
 		<beans:property name="order" value="1"/> <!-- 우선순위설정 -->
 	</beans:bean>
-	<!-- 사용자 viewResolver 설정 -->
-	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	
+	<beans:bean id="viewResolver"
+	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/"/>
 		<beans:property name="suffix" value=".jsp"/>
-		<beans:property name="order" value="2"/>
 	</beans:bean>
 	
 	<!-- 첨부파일을 위한 설정 -->
@@ -68,7 +69,6 @@
 	<resources mapping="/uploadStorage/**" location="/uploadStorage/"/>
 	<resources mapping="/graph/**" location="/graph/"/>
 	
-	<context:component-scan
-		base-package="com.jeju.**.**.**" />
+	<context:component-scan base-package="com.jeju.**.**.**" />
 
 </beans:beans>

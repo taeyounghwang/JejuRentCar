@@ -1,0 +1,20 @@
+/* 전체 영역을 통틀어서 스타일 정의 */
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+*{
+	font-family: 'Nanum Gothic';
+}
+*{
+	color: #000000;
+	text-decoration: none;
+}
+*{
+	color: #bbbbbb;
+	text-decoration: none;
+	cursor: pointer;
+}
+/* 네비게이션 영역 */
+.navbar{
+	background-color : #000000;
+	border-color : #000000;
+	text-decoration-color: #ffffff;
+}

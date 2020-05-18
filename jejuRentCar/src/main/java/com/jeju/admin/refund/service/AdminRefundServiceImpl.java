@@ -78,5 +78,19 @@ public class AdminRefundServiceImpl implements AdminRefundService {
 		}
 		return result;
 	}
+	
+	//5.차량 예약 내역 업데이트
+	@Override
+	public int updateCarReservation(AdminRefundVO vo) {
+		int result = 0;
+		try {
+			result = adminRefundDao.updateCarReservation(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 0;
+		}
+		return result;
+		
+	}
 
 }

@@ -1,0 +1,27 @@
+@CHARSET "UTF-8";
+
+#memberForm fieldset {
+	width:58%; padding:15px; border:1px solid #7BAEB5;}
+
+#loginForm fieldset, #loginAfter{
+	width:56%; padding:15px; border:1px solid #7BAEB5;
+}
+#memberForm label, #loginForm label{
+	display:inline-block; width:120px; font-size:14px;
+	font-weight: bold; padding-left:10px; vertical-align: middle;
+}
+#memberForm input[type='text'], #memberForm input[type='password'], #memberForm input[type='email']  {
+	border:1px solid #ccc; padding:3px 3px; width:180px;
+	vertical-align: middle; font-size: 12px; line-height: 150%;
+}
+.btn{
+	width:60px; height:24px; text-align:center;}
+span#memberMenu{
+	display:block; width:94%; }
+span#text{
+	font-size:12px; color:#7BAEB5;}
+span.error{
+	font-size:12px; color:#db0000;}
+span.testRefer{
+	font-size: 12px; display:block; 
+	padding-left:135px; color:#7BAEB5;}

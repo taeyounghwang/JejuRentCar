@@ -61,10 +61,7 @@ public class FileUploadUtil {
 
 		File fileDelete = new File(docRoot + "/" + fileName); // 파일 생성 후
 		log.info("삭제할 파일(fileDelete) : " + fileDelete);
-		System.out.println("존재 >>>>"+fileDelete.exists());
-		System.out.println("파일>>>>"+fileDelete.isFile());
 		if (fileDelete.exists() && fileDelete.isFile()) {
-			System.out.println("삭제");
 			result = fileDelete.delete();
 		}
 		log.info("파일 삭제 여부(true/false) : " + result);

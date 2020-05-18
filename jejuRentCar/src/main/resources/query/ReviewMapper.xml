@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jeju.client.review.dao.ReviewDao">
+	<!-- 리스트 조회 -->
+	<!-- 
+	<select id="review" resultType="review">
+		select *
+		from REVIEW_BOARD
+		order by
+		RE_NUMBER DESC
+	</select> -->
+	
+	<!-- 상세 페이지 조회 -->
+	<select id="detail" resultType="review" parameterType="review">
+		SELECT re_number,
+		mem_id,
+		re_title,
+		re_content,
+		re_regdate,
+		re_image1
+		from REVIEW_BOARD
+		where re_number = #{re_number}
+	</select>
+
+	<!-- 후기 등록 -->
+	<insert id="revInsert" parameterType="review">
+		<selectKey keyProperty="re_number" resultType="int"
+			order="BEFORE">
+			select review_seq.nextval from dual
+		</selectKey>
+		INSERT INTO REVIEW_BOARD(
+		re_number,
+		mem_id,
+		re_title,
+		re_content,
+		re_image1,
+		re_regdate,
+		re_reply
+		)VALUES(
+		#{re_number},
+		#{mem_id},
+		#{re_title},
+		#{re_content},
+		#{re_image1},
+		SYSDATE,
+		#{re_reply}
+		)
+	</insert>
+
+	<delete id="reviewDetaildelete" parameterType="review">
+		delete from
+		REVIEW_BOARD
+		where re_number=#{re_number}
+	</delete>
+	
+	
+
+	<!-- 게시물 검색 쿼리 분리 -->
+	<sql id="reviewCommon">
+		SELECT re_number,
+		mem_id,
+		re_title,
+		re_content,
+		re_image1,
+		re_regdate
+		FROM REVIEW_BOARD
+		<where>
+			<if test="search=='re_title'">
+					<![CDATA[re_title LIKE '%'|| #{keyword} ||'%']]>
+			</if>
+		</where>
+	</sql>
+
+	<!-- 게시물 카운트 페이징 -->
+	<select id="listCnt" parameterType="review" resultType="int">
+		<!-- Board - boardListCnt -->
+		SELECT NVL(count(1), 0) FROM
+		( SELECT list.*, ROWNUM AS RNUM
+		FROM(
+		<include refid="reviewCommon"></include>
+		ORDER BY re_number DESC
+		) list
+		)
+	</select>
+	
+	<!-- 게시물 전체 조회 -->
+	 <select id="review" parameterType="review"
+		resultType="review">
+		SELECT *
+		FROM
+		( SELECT list.*, ROWNUM AS RNUM
+		FROM (
+		<include refid="reviewCommon"></include>
+		order by re_number DESC
+		) list
+		)
+		<where>
+			<if test="start_row != null and start_row != ''">
+				<if test="end_row != null and end_row != ''">
+					RNUM BETWEEN #{start_row} AND #{end_row}
+				</if>
+			</if>
+		</where>
+	</select>
+</mapper>

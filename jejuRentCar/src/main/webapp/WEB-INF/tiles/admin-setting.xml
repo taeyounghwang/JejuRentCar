@@ -11,6 +11,9 @@
 		<put-attribute name="main" value="" />
 	</definition>
 
+	<definition name="/admin/memreservation/*" extends="basic">
+		<put-attribute name="main" value="/WEB-INF/views/admin/memreservation/{1}.jsp" />
+	</definition>
 	<definition name="admin/memreservation/*" extends="basic">
 		<put-attribute name="main" value="/WEB-INF/views/admin/memreservation/{1}.jsp" />
 	</definition>

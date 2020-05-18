@@ -51,6 +51,13 @@ public class PagingTag extends TagSupport{
 		if(page<1) page=1;
 		if(total<1) return "";
 		
+		/**
+		 * @param page		현재 페이지 번호
+		 * @param total		전체 조회된 Row 수
+		 * @param list_size	페이지에 보여주는 레코드수
+		 * @param page_size	페이지 네비게이터에 표시되는 페이지 버튼의 갯수
+		 */
+		
 		int currentFirst = ((page-1)/page_size) * page_size + 1;
 		int currentlast = ((page-1)/page_size) * page_size + page_size;
 		int nextFirst = (((page-1)/page_size)+1) * page_size + 1;

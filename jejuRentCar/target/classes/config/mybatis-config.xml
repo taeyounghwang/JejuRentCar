@@ -4,6 +4,27 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
+		<typeAlias type="com.jeju.client.car.vo.CarVO" alias="car" />
+		<typeAlias type="com.jeju.client.car.vo.CarVO"
+			alias="detail" />
+		<typeAlias
+			type="com.jeju.client.reservation.vo.ReservationVO" alias="res" />
+		<typeAlias
+			type="com.jeju.client.reservation.vo.ReservationVO" alias="insertres" />
+		<typeAlias
+			type="com.jeju.client.reservation.vo.ReservationVO" alias="sincheong" />
+		<typeAlias type="com.jeju.client.login.vo.LoginVO"
+			alias="login" />
+		<typeAlias type="com.jeju.client.member.vo.MemberVO"
+			alias="join" />
+		<typeAlias type="com.jeju.client.member.vo.MemberVO"
+			alias="member" />
+		<typeAlias type="com.jeju.client.review.vo.ReviewVO"
+			alias="review" />
+		<typeAlias type="com.jeju.client.notice.vo.NoticeVO"
+			alias="notice" />
+		<typeAlias type="com.jeju.client.question.vo.QuestionVO"
+			alias="question" />
 		<typeAlias
 			type="com.jeju.admin.member.reservation.vo.AdminMemberReservationVO"
 			alias="AdminMemberReservation" />
@@ -21,11 +42,11 @@
 		<typeAlias
 			type="com.jeju.admin.member.list.vo.AdminMemberListVO"
 			alias="adminMemList" />
-		<typeAlias
-			type="com.jeju.admin.qna.vo.AdminQnaVO"
+		<typeAlias type="com.jeju.admin.qna.vo.AdminQnaVO"
 			alias="adminQnaList" />
-		<typeAlias
-			type="com.jeju.admin.review.vo.AdminReviewVO"
-			alias="adminReview" />	
+		<typeAlias type="com.jeju.admin.review.vo.AdminReviewVO"
+			alias="adminReview" />
+		<typeAlias type="com.jeju.client.refund.vo.RefundVO"
+			alias="refund" />
 	</typeAliases>
 </configuration>

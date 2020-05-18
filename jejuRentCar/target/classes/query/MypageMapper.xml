@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeju.client.mypage.dao.MypageDao">
+
+	<select id="reservation" resultType="res" parameterType="res">
+		select * from reservation 
+		where mem_id = #{mem_id}
+	</select>
+	
+	<select id="reservationdetail" parameterType="res" resultType="res">
+		select * from reservation
+		where rsv_number = #{rsv_number}
+	</select>
+	
+	<!-- 내정보 수정 폼으로 이동을 하기 위한 비밀번호 확인 절차 -->
+	<select id="pwChk" parameterType="member"
+		resultType="member">
+		<!--  로그인 처리 쿼리  -->
+		select mem_id, mem_password , mem_name, mem_state
+		from member
+		where mem_id = #{mem_id} and mem_password = #{mem_password}
+	</select>
+	
+	<!-- 비밀번호 해쉬값 검색 -->
+	<select resultType="String" parameterType="String" id="selectHash">
+		select mem_password from member where mem_id=#{mem_id} 
+	</select>
+	
+	<update id="infoUpdate">
+		update member
+		set
+		mem_password = #{mem_password},
+		mem_name = #{mem_name},
+		mem_gender = #{mem_gender},
+		mem_birthday = #{mem_birthday},
+		mem_cellphone = #{mem_cellphone},
+		mem_state = #{mem_state}
+		where mem_id = #{mem_id}
+	</update>
+	
+</mapper> 

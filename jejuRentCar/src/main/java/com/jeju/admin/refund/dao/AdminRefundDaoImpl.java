@@ -47,6 +47,13 @@ public class AdminRefundDaoImpl implements AdminRefundDao {
 
 		return session.update("updateReservation", vo);
 	}
+	
+	//5.차량 예약 내역 업데이트
+	@Override
+	public int updateCarReservation(AdminRefundVO vo) {
+		// TODO Auto-generated method stub
+		return session.update("updateCarReservation", vo);
+	}
 
 
 	

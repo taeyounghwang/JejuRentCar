@@ -87,11 +87,12 @@ public class AdminRefundController {
 		int result = 0;
 		String url = "";
 		
-		result = adminRefundService.updateRefund(vo);
+		result = adminRefundService.updateRefund(vo);//환불에 업데이트
 		
 
 		if (result == 1) {
-			adminRefundService.updateReservation(vo);
+			adminRefundService.updateReservation(vo);//회원 예약에 업데이트
+			adminRefundService.updateCarReservation(vo);//차량 예약에 업데이트
 			url = "/admin/refund/reFund";
 
 		} else {

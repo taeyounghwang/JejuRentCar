@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jeju.client.refund.dao.RefundDao">
+
+	<!-- 예약취소  reservation 테이블에 update-->
+	<update id="rescancel" parameterType="res">
+		update reservation
+		set rsv_state = '입금취소'
+		where rsv_number = #{rsv_number}
+	</update>
+	
+	<select id="reservationdetail" parameterType="res" resultType="res">
+		select * from reservation
+		where rsv_number = #{rsv_number}
+	</select>
+
+	<!-- 환불요청 refund테이블에 insert-->
+	<insert id="refundInsert" parameterType="refund">
+		insert into refund 
+		values
+		(refund_seq.nextval,
+		 #{rsv_number}, 
+		 #{mem_id}, 
+		 #{car_name}, 
+		 #{rsv_name}, 
+		 #{rsv_apply_date}, 
+		 '환불대기', 
+		 #{rsv_price}, 
+		 #{rsv_insu}, 
+		 #{rsv_bannad},
+		 #{bk_name}, 
+		 #{bk_account}, 
+		 #{bk_user}
+		)
+	</insert>
+	
+	<update id="refrequest" parameterType="res">
+		update reservation
+		set 
+		rsv_state = '환불대기'
+		where rsv_number = #{rsv_number}
+	</update>
+	
+	<update id="rentalinsert" parameterType="AdminMemberReservation" >
+	update rental
+		set 
+		rsv_state = '환불대기'
+		where rsv_number = #{rsv_number}
+	</update>
+
+</mapper>

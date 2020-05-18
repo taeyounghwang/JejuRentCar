@@ -138,6 +138,9 @@
 				</c:otherwise>
 			</c:choose>
 		</table>
+		<table>
+		
+		</table>
 		<%--====================검색기능 시작 =============== --%>
 		<div id="memSearch" class="well">
 			<form id="f_search" name="f_search">
@@ -148,6 +151,7 @@
 				<div class="form-group">
 					<table>
 						<tr>
+						
 							<td id="btd1"><select id="search" name="search"
 								class="form-control">
 									<option value="mem_id">ID</option>
@@ -159,6 +163,7 @@
 							<td><input type="text" name="keyword" id="keyword"
 								placeholder="검색어를 입력하세요." /> <input type="button"
 								class="btn btn-primary" id="searchData" value="검색" /></td>
+								
 						</tr>
 					</table>
 				</div>

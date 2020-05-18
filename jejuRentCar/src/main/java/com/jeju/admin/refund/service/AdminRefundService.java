@@ -19,6 +19,9 @@ public interface AdminRefundService {
 	
 	//4.회원 예약 내역 업데이트
 	public int updateReservation(AdminRefundVO vo);
+	
+	//5.차량 예약 내역 업데이트
+	public int updateCarReservation(AdminRefundVO vo);
 
 	
 

@@ -25,13 +25,13 @@
 			else if (!chkSubmit($("#car_option"), "차량옵션을"))
 				return;
 			else {
-				if ($('#file').val() != "") {
+				 /* if ($('#file').val() != "") {
 					if (!chkFile($("#file")))
 						return;
 				} else {
 					alert("이미지를 등록해주세요");
-					return false;
-				}
+					return false; 
+				} */
 				if (confirm("등록하시겠습니까?") == true) {
 					$("#listInsert").attr({
 						"method" : "POST",
