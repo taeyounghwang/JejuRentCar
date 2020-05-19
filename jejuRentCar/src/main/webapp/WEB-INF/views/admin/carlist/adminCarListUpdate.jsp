@@ -189,49 +189,32 @@
 				<tr>
 					<td>차량 옵션</td>
 					<td colspan="3">
-						<!-- 옵션이 아무것도 선택되지 않았을 때 --> <c:if test="${vo.car_option == '' }">
+						<!-- 옵션이 1개 선택되어 있었을 때(기본옵션 = 운전석 에어백만 가능) --> <c:if
+							test="${vo.car_option == '운전석 에어백' }">
 							<input type="checkbox" name="car_option" id="car_option"
-								value="네비게이션">네비게이션&nbsp;&nbsp; <input type="checkbox"
-								name="car_option" id="car_option" value="운전석 에어백">운전석
-                     에어백&nbsp;&nbsp; <input type="checkbox"
-								name="car_option" id="car_option" value="블랙박스">블랙박스
-               </c:if> <!-- 옵션이 1개 선택되어 있었을 때 --> <c:if
-							test="${vo.car_option == '네비게이션' }">
-							<input type="checkbox" name="car_option" id="car_option"
-								value="네비게이션" checked>네비게이션&nbsp;&nbsp; <input
-								type="checkbox" name="car_option" id="car_option"
-								value="운전석 에어백">운전석 에어백&nbsp;&nbsp;<input
+								value="운전석 에어백" checked onclick="return false">운전석 에어백&nbsp;&nbsp;<input
+								type="checkbox" name="car_option" id="car_option" value="네비게이션">네비게이션&nbsp;&nbsp; <input
 								type="checkbox" name="car_option" id="car_option" value="블랙박스">블랙박스
-                        </c:if> <c:if test="${vo.car_option == '운전석 에어백' }">
-							<input type="checkbox" name="car_option" id="car_option"
-								value="네비게이션">네비게이션&nbsp;&nbsp; <input type="checkbox"
-								name="car_option" id="car_option" value="운전석 에어백" checked>운전석 에어백&nbsp;&nbsp;<input
-								type="checkbox" name="car_option" id="car_option" value="블랙박스">블랙박스
-                        </c:if> <c:if test="${vo.car_option == '블랙박스' }">
-							<input type="checkbox" name="car_option" id="car_option"
-								value="네비게이션">네비게이션&nbsp;&nbsp; <input type="checkbox"
-								name="car_option" id="car_option" value="운전석 에어백">운전석 에어백&nbsp;&nbsp;<input
-								type="checkbox" name="car_option" id="car_option" value="블랙박스"
-								checked>블랙박스
                         </c:if> <!-- 옵션이 2개 이상 선택되어 있었을 때 --> <c:if
-							test="${vo.car_option == '네비게이션,운전석 에어백'}">
+							test="${vo.car_option == '운전석 에어백,네비게이션'}">
 							<input type="checkbox" name="car_option" id="car_option"
-								value="네비게이션" checked>네비게이션&nbsp;&nbsp; <input
-								type="checkbox" name="car_option" id="car_option"
-								value="운전석 에어백" checked>운전석 에어백&nbsp;&nbsp;<input
-								type="checkbox" name="car_option" id="car_option" value="블랙박스">블랙박스
-                     </c:if> <c:if test="${vo.car_option == '네비게이션,블랙박스'}">
-							<input type="checkbox" name="car_option" id="car_option"
-								value="네비게이션" checked>네비게이션&nbsp;&nbsp; <input
-								type="checkbox" name="car_option" id="car_option"
-								value="운전석 에어백" checked>운전석 에어백&nbsp;&nbsp;<input
-								type="checkbox" name="car_option" id="car_option" value="블랙박스">블랙박스
+								value="운전석 에어백" checked onclick="return false">운전석 에어백&nbsp;&nbsp;<input
+								type="checkbox" name="car_option" id="car_option" value="네비게이션"
+								checked>네비게이션&nbsp;&nbsp; <input type="checkbox"
+								name="car_option" id="car_option" value="블랙박스">블랙박스
                      </c:if> <c:if test="${vo.car_option == '운전석 에어백,블랙박스'}">
 							<input type="checkbox" name="car_option" id="car_option"
-								value="네비게이션" checked>네비게이션&nbsp;&nbsp; <input
-								type="checkbox" name="car_option" id="car_option"
-								value="운전석 에어백" checked>운전석 에어백&nbsp;&nbsp;<input
-								type="checkbox" name="car_option" id="car_option" value="블랙박스">블랙박스
+								value="운전석 에어백" checked onclick="return false">운전석 에어백&nbsp;&nbsp;<input
+								type="checkbox" name="car_option" id="car_option" value="네비게이션">네비게이션&nbsp;&nbsp; <input
+								type="checkbox" name="car_option" id="car_option" value="블랙박스"
+								checked>블랙박스
+                     </c:if> <!-- 옵션이 모두 선택되어 있었을 때 --><c:if
+							test="${vo.car_option == '운전석 에어백,네비게이션,블랙박스'}">
+							<input type="checkbox" name="car_option" id="car_option"
+								value="운전석 에어백" checked onclick="return false">운전석 에어백&nbsp;&nbsp;<input
+								type="checkbox" name="car_option" id="car_option" value="네비게이션"
+								checked>네비게이션&nbsp;&nbsp; <input type="checkbox"
+								name="car_option" id="car_option" value="블랙박스" checked>블랙박스
                      </c:if>
 					</td>
 				</tr>

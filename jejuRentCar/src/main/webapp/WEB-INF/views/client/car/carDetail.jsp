@@ -64,11 +64,11 @@
 	background-color: #FFFFFF;
 }
 .wrapper{
-	width:1300px;
+	width:1500px;
 	height:700px;
 	background-color: #EAEAEA;
 	align:center;
-	margin-left: 300px;
+	margin-left: 200px;
 	
 	border: 2px solid #000000;
 	border-radius: 4px;

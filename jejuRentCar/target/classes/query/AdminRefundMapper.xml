@@ -100,11 +100,4 @@
 		rsv_state = #{rsv_state}
 		where rsv_number = #{rsv_number}
 	</update>
-	<!-- 차량 예약 내역 상태 업데이트 -->
-	<update id="updateCarReservation" parameterType="AdminRefund">
-		UPDATE RENTAL
-		SET
-		rsv_state = #{rsv_state}
-		where rsv_number = #{rsv_number}
-	</update>
 </mapper>

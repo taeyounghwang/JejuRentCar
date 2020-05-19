@@ -31,9 +31,6 @@
 <a href="/car/List"><img src="../resources/images/cont.PNG" style="width:100%;"></a>
 <br>
 <div class="contents">
-<div class="img1"><img src="../resources/images/bnleft.jpg"></div>
-<div class="img2"  align="center"><img src="../resources/images/mainimagetemp1.PNG"></div>
-<div class="img3"><img src="../resources/images/bnright.jpg"></div>
 </div>
 <!-- <br>
 <img src="../resources/images/mainimagetemp.PNG">

@@ -103,7 +103,7 @@
 		update inquiry_board
 		set
 		inq_reply = null,
-		inq_state = '답변대기'
+		inq_state = '미완료'
 		where inq_number = #{inq_number}
 	</update>
 

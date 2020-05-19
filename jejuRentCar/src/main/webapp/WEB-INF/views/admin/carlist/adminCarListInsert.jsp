@@ -12,25 +12,19 @@
 				return;
 			else if (!chkSubmit($("#car_price"), "대여가격을"))
 				return;
-			else if (!chkSubmit($("#car_stick"), "스틱옵션을"))
-				return;
-			else if (!chkSubmit($("#car_fuel"), "연료옵션을"))
-				return;
 			else if (!chkSubmit($("#car_number_passengers"), "최대승차인원을"))
 				return;
 			else if (!chkSubmit($("#car_insurance"), "일반보험을"))
 				return;
 			else if (!chkSubmit($("#car_adv_insurance"), "고급보험을"))
 				return;
-			else if (!chkSubmit($("#car_option"), "차량옵션을"))
-				return;
 			else {
-				 /* if ($('#file').val() != "") {
-					if (!chkFile($("#file")))
-						return;
+				/* if ($('#file').val() != "") {
+				if (!chkFile($("#file")))
+					return;
 				} else {
-					alert("이미지를 등록해주세요");
-					return false; 
+				alert("이미지를 등록해주세요");
+				return false; 
 				} */
 				if (confirm("등록하시겠습니까?") == true) {
 					$("#listInsert").attr({
@@ -84,7 +78,7 @@
 				<tr>
 					<td>연료옵션</td>
 					<td><label><input type="radio" name="car_fuel"
-							id="car_fuel1" value="휘발유" checked>휘발유</label>
+							id="car_fuel" value="휘발유" checked>휘발유</label>
 						&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio"
 							name="car_fuel" id="car_fuel" value="전기">전기</label></td>
 				</tr>
@@ -112,10 +106,10 @@
 				<tr>
 					<td>차량 옵션</td>
 					<td><label><input type="checkbox" name="car_option"
-							id="car_option" value="운전석 에어백" checked>운전석에어백</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input
+							id="car_option" value="운전석 에어백" checked onclick="return false">운전석 에어백</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><input
 							type="checkbox" name="car_option" id="car_option" value="네비게이션">네비게이션</label>&nbsp;&nbsp;&nbsp;&nbsp;
-						&nbsp;&nbsp;&nbsp;&nbsp; <label><input type="checkbox"
-							name="car_option" id="car_option" value="블랙박스">블랙박스</label></td>
+						<label><input type="checkbox" name="car_option"
+							id="car_option" value="블랙박스">블랙박스</label></td>
 				</tr>
 				<tr>
 					<td>이미지 업로드</td>
